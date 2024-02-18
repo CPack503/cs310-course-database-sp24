@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
-
+        
 public class SectionDAO {
     
     private static final String QUERY_FIND = "SELECT * FROM section WHERE termid = ? AND subjectid = ? AND num = ? ORDER BY crn";
@@ -22,16 +22,22 @@ public class SectionDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         ResultSetMetaData rsmd = null;
-        
+                
         try {
             
             Connection conn = daoFactory.getConnection();
             
             if (conn.isValid(0)) {
                 
-                // INSERT YOUR CODE HERE
+                ps = conn.prepareStatement(QUERY_FIND);
+                ps.setInt(1, termid);
+                ps.setString(2, subjectid);
+                ps.setString(3, num);
                 
-            }
+                rs = ps.executeQuery();
+
+                result = DAOUtility.getResultSetAsJson(rs);
+            }  
             
         }
         
